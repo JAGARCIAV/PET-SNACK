@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos - PET SNACK</title>
+  <link rel="stylesheet" href="../styles/dogs.css">
+</head>
+<body>
+  <!-- ===== CONTENEDOR PRINCIPAL ===== -->
+  <div class="container">
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+      <h1>PET SNACK</h1>
+      <div class="header-buttons">
+        <button onclick="window.location.href='../index.html'">Inicio</button>
+        <button class="active">Productos</button>
+        <button onclick="window.location.href='carrito.html'">Carrito</button>
+      </div>
+    </div>
+  </div>
+  <div class="header-dogs">
+    <img src="../image/perros.png" alt="Imagen gatos">
+  </div>
+
+
+  <div class="banner-principal">
+  <!-- ===== BANNER GATOS ===== -->
+    <div class="item-gatos">
+    <section class="separar">
+    <h3>HUMEDOS</h3>
+    <div class="productos-grid">
+      <div class="producto">
+        <img src="../image/seco.png" alt="Snack para perros">
+        <h4>Galletas de Pescaditos</h4>
+        <p>Refuerza el sistema inmunológico y da energía.</p>
+        <small>Ingredientes: Pollo, avena, zanahoria.</small>
+        <div class="acciones">
+          <button onclick="window.location.href='../clases/descripcion.html'">Ver</button>
+          <button onclick="addToCart('Galletas de Pollo','../image/snack_perro.jpg',5.00)">Ordenar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+    <section class="separar">
+    <h3>SECOS</h3>
+    <div class="productos-grid">
+      <div class="producto">
+        <img src="../image/seco.png" alt="Snack para perros">
+        <h4>Galletas de Pescaditos</h4>
+        <p>Refuerza el sistema inmunológico y da energía.</p>
+        <small>Ingredientes: Pollo, avena, zanahoria.</small>
+        <div class="acciones">
+          <button onclick="window.location.href='../clases/descripcion.html'">Ver</button>
+          <button onclick="addToCart('Galletas de Pollo','../image/snack_perro.jpg',5.00)">Ordenar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+    <section class="separar">
+    <h3>SNACK</h3>
+    <div class="productos-grid">
+      <div class="producto">
+        <img src="../image/seco.png" alt="Snack para perros">
+        <h4>Galletas de Pollo</h4>
+        <p>Refuerza el sistema inmunológico y da energía.</p>
+        <small>Ingredientes: Pollo, avena, zanahoria.</small>
+        <div class="acciones">
+          <button onclick="window.location.href='../clases/descripcion.html'">Ver</button>
+          <button onclick="addToCart('Galletas de Pollo','../image/snack_perro.jpg',5.00)">Ordenar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SCRIPT CARRITO ===== -->
+  <script>
+    function addToCart(nombre, imagen, precio) {
+      let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+      carrito.push({ nombre, imagen, precio, cantidad: 1 });
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      window.location.href = '../clases/carrito.html';
+    }
+  </script>
+    </div>
+
+
+
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>🐾 Pet Shop</h3>
+        <p>Tu tienda de confianza para consentir a tu mascota.</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Enlaces</h4>
+        <ul>
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#">Productos</a></li>
+          <li><a href="#">Servicios</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Contáctanos</h4>
+        <p>📍 Calle Falsa 123, Ciudad</p>
+        <p>📞 +591 70000000</p>
+        <p>✉️ contacto@petshop.com</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 Pet Shop | Todos los derechos reservados</p>
+    </div>
+  </footer>
+</body>
+</html>

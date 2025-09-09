@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos - PET SNACK</title>
+  <link rel="stylesheet" href="../styles/index.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>PET SNACK</h1>
+      <div class="header-buttons">
+        <button onclick="window.location.href='../index.html'">Inicio</button>
+        <button class="active">Productos</button>
+        <button onclick="window.location.href='carrito.html'">Carrito</button>
+      </div>
+    </div>
+
+    <h2 class="titulo-seccion">Snacks para Mascotas</h2>
+
+    <!-- Categoría Gatos -->
+    <section>
+      <h3>🐱 Gatos</h3>
+      <div class="productos-grid">
+        <div class="producto">
+          <img src="../image/seco.png" alt="Snack para gatos">
+          <h4>Snacks de Atún</h4>
+          <p>Mejora la digestión y fortalece el pelaje de tu gato.</p>
+          <small>Ingredientes: Atún, arroz integral, vitaminas.</small>
+          <div class="acciones">
+            <button onclick="window.location.href='../clases/descripcion.html'">Ver</button>
+            <button onclick="addToCart('Snacks de Atún','../image/snack_gato.jpg',4.50)">Ordenar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categoría Perros -->
+    <section>
+      <h3>🐶 Perros</h3>
+      <div class="productos-grid">
+        <div class="producto">
+          <img src="../image/pollo.jpg" alt="Snack para perros">
+          <h4>Galletas de Pollo</h4>
+          <p>Refuerza el sistema inmunológico y da energía.</p>
+          <small>Ingredientes: Pollo, avena, zanahoria.</small>
+          <div class="acciones">
+            <button onclick="window.location.href='../clases/descripcion.html'">Ver</button>
+            <button onclick="addToCart('Galletas de Pollo','../image/snack_perro.jpg',5.00)">Ordenar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categoría Otros -->
+    <section>
+      <h3>🐦🐰 Otros</h3>
+      <div class="productos-grid">
+        <div class="producto">
+          <img src="../image/zanahoria.jpg" alt="Snack para conejos">
+          <h4>Mix de Verduras</h4>
+          <p>Aporta fibra y mejora la digestión de conejos.</p>
+          <small>Ingredientes: Zanahoria, espinaca, alfalfa.</small>
+          <div class="acciones">
+            <button onclick="window.location.href='../clases/descripcion.html'">Ver</button>
+            <button onclick="addToCart('Mix de Verduras','../image/snack_conejo.jpg',3.80)">Ordenar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function addToCart(nombre, imagen, precio) {
+      let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+      carrito.push({ nombre, imagen, precio, cantidad: 1 });
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      window.location.href = '../clases/carrito.html';
+    }
+  </script>
+</body>
+</html>

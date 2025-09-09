@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Descripción del Producto - PET SNACK</title>
+  <!-- (Opcional) tu hoja base si ya la usas en todo el sitio -->
+  <link rel="stylesheet" href="../styles/index.css">
+  <!-- Hoja de estilos específica de esta página -->
+  <link rel="stylesheet" href="../styles/descripcion.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1>PET SNACK</h1>
+      <nav class="header-buttons">
+        <button onclick="window.location.href='../index.html'">Inicio</button>
+        <button onclick="window.location.href='productos.html'">Productos</button>
+        <button onclick="window.location.href='carrito.html'">Carrito</button>
+      </nav>
+    </header>
+
+    <!-- Layout principal -->
+    <main class="description-layout">
+      <!-- Izquierda: Producto + preview de ingrediente -->
+      <section class="producto-detalle card">
+        <img id="productoImagen" src="../image/seco.png" alt="" class="producto-img">
+        <h1 id="productoNombre"></h1>
+        <p id="productoDescripcion" class="muted"></p>
+
+        <ul id="resumen-beneficios" class="beneficios">
+          <li>Proteína alta</li>
+          <li>Fibra digestiva</li>
+          <li>Vitaminas esenciales</li>
+        </ul>
+      </section>
+
+      <!-- Centro: Ingredientes con Editar / Ver -->
+      <section class="ingredientes-lista card">
+        <h3>Ingredientes</h3>
+        <ul id="listaIngredientes"></ul>
+      </section>
+              <!-- Vista previa del ingrediente (se actualiza con "Ver") -->
+        <div id="previewIngrediente" class="preview-ingrediente hidden">
+          <h2>Detalle del ingrediente</h2>
+          <img id="previewImg" src="../image/zanahoria.jpg" alt="Ingrediente">
+          <p id="previewTxt" class="p"><strong>Zanahoria:</strong> rica en betacarotenos, mejora la vista y la piel.</p>
+        </div>
+    </main>
+          <!-- Derecha: acciones -->
+      <aside class="acciones-grid">
+          <button class="btn btn-secondary" id="btnReset">Restablecer</button>
+          <button class="btn btn-primary" id="btnAgregar">Confirmar y agregar al carrito</button>
+        </div>
+      </aside>
+  </div>
+
+  <script>
+  /* ===== Datos de ingredientes con propiedades ===== */
+  const ING_INFO = {
+    "Zanahoria": { img: "../image/zanahoria.jpg", desc: "Rica en betacarotenos, mejora la vista y la piel." },
+    "Brócoli":   { img: "../image/brocoli.jpg",   desc: "Fibra y vitamina C, ayuda a defensas y digestión." },
+    "Pollo":     { img: "../image/pollo.jpg",     desc: "Proteína magra para músculos fuertes." },
+    "Espinaca":  { img: "../image/espinaca.jpg",  desc: "Hierro y vitaminas para energía y salud." },
+    "Manzana":   { img: "../image/manzana.jpg",   desc: "Fibra natural, buena para la digestión." },
+    "Arroz":     { img: "../image/arroz.jpg",     desc: "Carbohidrato ligero para energía diaria." },
+    "Avena":     { img: "../image/avena.jpg",     desc: "Fuente de fibra soluble, mejora el tránsito." },
+    "Atún":      { img: "../image/atun.jpg",      desc: "Omega-3 natural para piel y pelaje." }
+  };
+
+  /* Opciones que aparecen al editar (5 ejemplos) */
+  const OPCIONES_EDICION = ["Zanahoria","Brócoli","Pollo","Espinaca","Manzana"];
+
+  /* Estado */
+  let ingredientesActuales = [];    // se llena según producto
+  let ingredientesIniciales = [];   // copia para restablecer
+  let selectAbierto = null;         // para cerrar select anterior
+
+  /* ===== Helpers UI ===== */
+  const $ = (sel) => document.querySelector(sel);
+  const $$ = (sel) => document.querySelectorAll(sel);
+
+  /* ===== Cargar producto seleccionado ===== */
+  document.addEventListener("DOMContentLoaded", () => {
+    const producto = JSON.parse(localStorage.getItem("productoSeleccionado"));
+
+    if (producto) {
+      $("#productoImagen").src = producto.imagen;
+      $("#productoNombre").textContent = producto.nombre;
+      $("#productoDescripcion").textContent = producto.descripcion || "";
+      $("#btnAgregar").onclick = () => {
+        addToCart(producto.nombre, producto.imagen, producto.precio || 5.00);
+      };
+
+      // Ingredientes por defecto según producto
+      let nombre = (producto.nombre || "").toLowerCase();
+      if (nombre.includes("pollo")) {
+        ingredientesActuales = ["Pollo", "Arroz", "Zanahoria"];
+      } else if (nombre.includes("atún") || nombre.includes("atun")) {
+        ingredientesActuales = ["Atún", "Avena", "Espinaca"];
+      } else if (nombre.includes("verduras") || nombre.includes("mix")) {
+        ingredientesActuales = ["Zanahoria", "Brócoli", "Espinaca"];
+      } else {
+        // genérico
+        ingredientesActuales = ["Pollo", "Avena", "Zanahoria"];
+      }
+    } else {
+      // fallback si se entra directo
+      ingredientesActuales = ["Zanahoria","Pollo","Espinaca"];
+    }
+
+    ingredientesIniciales = [...ingredientesActuales];
+    renderIngredientes();
+    hookAcciones();
+  });
+
+  function hookAcciones() {
+    $("#btnReset").addEventListener("click", () => {
+      ingredientesActuales = [...ingredientesIniciales];
+      cerrarSelectAbierto();
+      renderIngredientes();
+      // Limpia el preview
+      $("#previewIngrediente").classList.add("hidden");
+    });
+  }
+
+  /* ===== Render lista con botones ===== */
+  function renderIngredientes() {
+    const ul = $("#listaIngredientes");
+    ul.innerHTML = "";
+
+    ingredientesActuales.forEach((nombreIng, index) => {
+      const li = document.createElement("li");
+      li.className = "ing-item";
+
+      li.innerHTML = `
+        <div class="ing-left">
+          <span class="ing-nombre">${nombreIng}</span>
+        </div>
+
+        <div class="ing-actions">
+          <button class="btn btn-warning btn-sm" data-action="editar" data-index="${index}">Editar</button>
+          <button class="btn btn-success btn-sm" data-action="ver" data-index="${index}">Ver</button>
+        </div>
+
+        <div class="ing-select hidden">
+          <select class="select-editar" data-index="${index}">
+            ${OPCIONES_EDICION.map(op => `<option value="${op}" ${op===nombreIng?'selected':''}>${op}</option>`).join("")}
+          </select>
+        </div>
+      `;
+
+      // Eventos de botones
+      li.querySelector('[data-action="editar"]').addEventListener("click", () => {
+        const selectWrap = li.querySelector(".ing-select");
+        // cerrar el select previo si existe y es distinto
+        if (selectAbierto && selectAbierto !== selectWrap) {
+          selectAbierto.classList.add("hidden");
+        }
+        selectWrap.classList.toggle("hidden");
+        selectAbierto = selectWrap.classList.contains("hidden") ? null : selectWrap;
+      });
+
+      li.querySelector('[data-action="ver"]').addEventListener("click", () => {
+        const nombre = ingredientesActuales[index];
+        mostrarPreview(nombre);
+      });
+
+      // Cambio de opción
+      li.querySelector(".select-editar").addEventListener("change", (e) => {
+        const idx = parseInt(e.target.dataset.index, 10);
+        const nuevo = e.target.value;
+        ingredientesActuales[idx] = nuevo;
+        // actualiza el nombre visible
+        li.querySelector(".ing-nombre").textContent = nuevo;
+        // cierra el select y muestra preview del nuevo
+        li.querySelector(".ing-select").classList.add("hidden");
+        selectAbierto = null;
+        mostrarPreview(nuevo);
+      });
+
+      ul.appendChild(li);
+    });
+  }
+
+  function cerrarSelectAbierto() {
+    if (selectAbierto) {
+      selectAbierto.classList.add("hidden");
+      selectAbierto = null;
+    }
+  }
+
+  /* ===== Preview del ingrediente (panel izquierdo) ===== */
+  function mostrarPreview(nombreIng) {
+    const info = ING_INFO[nombreIng];
+    if (!info) return;
+    $("#previewImg").src = info.img;
+    $("#previewTxt").innerHTML = `<strong>${nombreIng}:</strong> ${info.desc}`;
+    const panel = $("#previewIngrediente");
+    panel.classList.remove("hidden");
+    // desplazamiento suave al inicio del panel
+    panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  /* ===== Carrito (localStorage) ===== */
+  function addToCart(nombre, imagen, precio) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    // si existe, suma cantidad
+    let existente = carrito.find(item => item.nombre === nombre);
+    if (existente) {
+      existente.cantidad += 1;
+    } else {
+      // (Opcional) guardar ingredientes elegidos:
+      // existente.ingredientes = ingredientesActuales;
+      carrito.push({ nombre, imagen, precio, cantidad: 1 });
+    }
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    window.location.href = 'carrito.html';
+  }
+  </script>
+</body>
+</html>
