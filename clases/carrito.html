@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito - PET SNACK</title>
+  <link rel="stylesheet" href="../styles/index.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>PET SNACK</h1>
+      <div class="header-buttons">
+        <button onclick="window.location.href='../index.html'">Inicio</button>
+        <button onclick="window.location.href='../clases/productos.html'">Productos</button>
+        <button class="active">Carrito</button>
+      </div>
+    </div>
+
+    <h2>🛒 Carrito de Compras</h2>
+    <div class="carrito-lista" id="carritoLista"></div>
+
+    <div class="carrito-acciones">
+      <button class="comprar">Comprar</button>
+    </div>
+  </div>
+
+  <script>
+  function renderCarrito() {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    let contenedor = document.getElementById("carritoLista");
+    contenedor.innerHTML = "";
+
+    if (carrito.length === 0) {
+      contenedor.innerHTML = "<p>El carrito está vacío</p>";
+      return;
+    }
+
+    carrito.forEach((item, index) => {
+      contenedor.innerHTML += `
+        <div class="item-carrito">
+          <img src="${item.imagen}" alt="${item.nombre}">
+          <div>
+            <h4>${item.nombre}</h4>
+            <p>Cantidad: ${item.cantidad}</p>
+          </div>
+          <span>$${item.precio.toFixed(2)}</span>
+          <button onclick="eliminarItem(${index})">❌</button>
+        </div>
+      `;
+    });
+  }
+
+  function eliminarItem(index) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    carrito.splice(index, 1);
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    renderCarrito();
+  }
+
+  renderCarrito();
+  </script>
+</body>
+</html>
