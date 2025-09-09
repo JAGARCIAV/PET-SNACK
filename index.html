@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Snack para tus mascotas</title>
+  <meta name="description" content="Snacks naturales y deshidratados para mascotas en Sucre.">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="logo">🐾 Snack para tus mascotas</h1>
+      <nav>
+        <a href="#productos">Productos</a>
+        <a href="#pedidos">Pedidos</a>
+        <a href="#nosotros">Nosotros</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h2>Snacks naturales y deshidratados</h2>
+      <p>Alternativa saludable, sin conservantes ni aditivos. Entrega a domicilio en Sucre.</p>
+      <a href="#productos" class="btn">Ver productos</a>
+    </div>
+  </section>
+
+  <main>
+<section id="productos" class="container">
+  <h2 class="section-title">Nuestros Productos</h2>
+  <div class="grid">
+    <div class="product-card">
+      <img src="assets/placeholder-snack-1.png" alt="Snack de pollo deshidratado">
+      <h3>Pollo deshidratado</h3>
+      <p>Rico en proteína, fácil de digerir.</p>
+      <span class="price">Bs 25</span>
+      <button class="btn add-to-cart" data-name="Pollo deshidratado" data-price="25">Agregar</button>
+    </div>
+    <div class="product-card">
+      <img src="assets/placeholder-snack-2.png" alt="Snack de pescado deshidratado">
+      <h3>Pescado crujiente</h3>
+      <p>Omega para piel y pelaje.</p>
+      <span class="price">Bs 28</span>
+      <button class="btn add-to-cart" data-name="Pescado crujiente" data-price="28">Agregar</button>
+    </div>
+  </div>
+</section>
+
+<!-- 🛒 CARRITO -->
+<section id="carrito" class="container">
+  <h2 class="section-title">Tu Carrito</h2>
+  <ul id="cart-list"></ul>
+  <p><strong>Total:</strong> Bs <span id="cart-total">0</span></p>
+</section>
+
+<section id="pedidos" class="pedido-section">
+  <div class="container">
+    <h2 class="section-title">Haz tu pedido</h2>
+    <form id="order-form" class="pedido-form">
+      <input type="text" name="nombre" placeholder="Nombre" required>
+      <input type="tel" name="telefono" placeholder="Teléfono" required>
+      <input type="text" name="zona" placeholder="Zona de entrega" required>
+      <textarea name="detalle" rows="3" placeholder="Resumen del pedido"></textarea>
+      <button type="submit" class="btn">Enviar por WhatsApp</button>
+    </form>
+  </div>
+</section>
+
+
+    <section id="pedidos" class="pedido-section">
+      <div class="container">
+        <h2 class="section-title">Haz tu pedido</h2>
+        <form id="order-form" class="pedido-form">
+          <input type="text" name="nombre" placeholder="Nombre" required>
+          <input type="tel" name="telefono" placeholder="Teléfono" required>
+          <input type="text" name="zona" placeholder="Zona de entrega" required>
+          <textarea name="detalle" rows="3" placeholder="Ej: 1x Pollo, 1x Pescado"></textarea>
+          <button type="submit" class="btn">Enviar por WhatsApp</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="nosotros" class="container">
+      <h2 class="section-title">Sobre nosotros</h2>
+      <p>Somos un proyecto educativo de estudiantes de Sistemas Informáticos, comprometidos con la salud y el bienestar animal.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Snack para tus mascotas · Todos los derechos reservados</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
